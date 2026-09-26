@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../api/client";
+import apiClient from "../client";
 
 export default function Home() {
   const [status, setStatus] = useState("checking");
