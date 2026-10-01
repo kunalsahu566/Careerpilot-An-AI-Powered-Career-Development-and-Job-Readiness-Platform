@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import Optional
 
 class CareerRole(BaseModel):
     role_name: str
@@ -13,7 +13,7 @@ class SkillMatch(BaseModel):
 
 
 class SkillGapResponse(BaseModel):
-    target_role: str | None
+    target_role: Optional[str]
     overall_match_percent: float
     matched_skills: list[str]
     missing_high_priority: list[str]   # missing required skills

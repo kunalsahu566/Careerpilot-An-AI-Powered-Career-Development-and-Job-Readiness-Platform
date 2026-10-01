@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import health
+from app.routers import health, auth, profile, roles, skill_gap
 
 app = FastAPI(
     title="CareerPilot API",
@@ -19,6 +19,11 @@ app.add_middleware(
 )
 
 app.include_router(health.router)
+app.include_router(auth.router)
+app.include_router(profile.router)
+app.include_router(roles.router)
+app.include_router(skill_gap.router)
+
 
 @app.get("/")
 async def root():
