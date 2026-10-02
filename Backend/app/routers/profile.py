@@ -1,8 +1,8 @@
-from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
+from bson import ObjectId
 
 from app.database import db
-from app.models.profile import ProfileResponse, ProfileUpdate
+from app.models.profile import ProfileUpdate, ProfileResponse
 from app.utils.deps import get_current_user
 
 router = APIRouter(prefix="/profile", tags=["profile"])

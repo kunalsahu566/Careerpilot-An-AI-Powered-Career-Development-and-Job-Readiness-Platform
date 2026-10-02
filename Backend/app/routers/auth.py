@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, status
+from bson import ObjectId
 
 from app.database import db
-from app.models.auth import TokenResponse, UserLogin, UserRegister
-from app.utils.security import create_access_token, hash_password, verify_password
+from app.models.auth import UserRegister, UserLogin, TokenResponse
+from app.utils.security import hash_password, verify_password, create_access_token
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -32,22 +33,18 @@ async def register(payload: UserRegister):
     result = await db.users.insert_one(user_doc)
     user_id = str(result.inserted_id)
 
-    await db.student_profiles.insert_one(
-        {
-            "user_id": user_id,
-            "location": None,
-            "education": None,
-            "skills": [],
-            "projects": [],
-            "career_goal": None,
-        }
-    )
+    await db.student_profiles.insert_one({
+        "user_id": user_id,
+        "location": None,
+        "education": None,
+        "skills": [],
+        "projects": [],
+        "career_goal": None,
+    })
 
+    token = create_access_token(user_id)
     user_doc["_id"] = result.inserted_id
-    return TokenResponse(
-        access_token=create_access_token(user_id),
-        user=user_to_public_dict(user_doc),
-    )
+    return TokenResponse(access_token=token, user=user_to_public_dict(user_doc))
 
 
 @router.post("/login", response_model=TokenResponse)
@@ -59,7 +56,5 @@ async def login(payload: UserLogin):
             detail="Incorrect email or password.",
         )
 
-    return TokenResponse(
-        access_token=create_access_token(str(user["_id"])),
-        user=user_to_public_dict(user),
-    )
+    token = create_access_token(str(user["_id"]))
+    return TokenResponse(access_token=token, user=user_to_public_dict(user))

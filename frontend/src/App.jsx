@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import SkillGap from "./pages/SkillGap";
 
+
 export default function App() {
   return (
     <AuthProvider>
