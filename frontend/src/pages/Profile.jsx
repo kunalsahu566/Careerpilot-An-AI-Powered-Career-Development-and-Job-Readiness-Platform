@@ -132,6 +132,12 @@ export default function Profile() {
             <Link to="/skill-gap" className="text-sm text-blue-600 font-medium hover:underline">
               View Skill Gap →
             </Link>
+            <Link to="/readiness" className="text-sm text-blue-600 font-medium hover:underline">
+              Readiness Score →
+            </Link>
+            <Link to="/learning" className="text-sm text-blue-600 font-medium hover:underline">
+              Learning →
+            </Link>
             <button onClick={logout} className="text-sm text-slate-500 hover:text-red-600">
               Log out
             </button>

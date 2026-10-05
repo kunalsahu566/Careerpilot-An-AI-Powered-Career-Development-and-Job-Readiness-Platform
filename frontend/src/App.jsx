@@ -5,7 +5,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import SkillGap from "./pages/SkillGap";
-
+import Readiness from "./pages/Readiness";
+import Recommendations from "./pages/Recommendations";
 
 export default function App() {
   return (
@@ -27,6 +28,22 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <SkillGap />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/readiness"
+            element={
+              <ProtectedRoute>
+                <Readiness />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/learning"
+            element={
+              <ProtectedRoute>
+                <Recommendations />
               </ProtectedRoute>
             }
           />
