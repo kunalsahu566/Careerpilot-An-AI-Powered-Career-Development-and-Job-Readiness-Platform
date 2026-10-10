@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import SkillGap from "./pages/SkillGap";
 import Readiness from "./pages/Readiness";
 import Recommendations from "./pages/Recommendations";
+import StudyPlan from "./pages/StudyPlan";
 
 export default function App() {
   return (
@@ -44,6 +45,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Recommendations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/study-plan"
+            element={
+              <ProtectedRoute>
+                <StudyPlan />
               </ProtectedRoute>
             }
           />
