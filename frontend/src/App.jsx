@@ -8,6 +8,7 @@ import SkillGap from "./pages/SkillGap";
 import Readiness from "./pages/Readiness";
 import Recommendations from "./pages/Recommendations";
 import StudyPlan from "./pages/StudyPlan";
+import Jobs from "./pages/Jobs";
 
 export default function App() {
   return (
@@ -53,6 +54,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <StudyPlan />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/jobs"
+            element={
+              <ProtectedRoute>
+                <Jobs />
               </ProtectedRoute>
             }
           />
