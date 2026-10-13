@@ -101,7 +101,7 @@ export default function StudyPlan() {
       <div className="min-h-screen bg-slate-50 py-10 px-4">
         <div className="max-w-xl mx-auto">
           <Link to="/dashboard" className="text-sm text-slate-500 hover:text-slate-700">
-            ← Back to profile
+            ← Back to dashboard
           </Link>
 
           <div className="bg-white rounded-2xl shadow-sm p-8 mt-4">
@@ -189,7 +189,7 @@ export default function StudyPlan() {
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between">
           <Link to="/dashboard" className="text-sm text-slate-500 hover:text-slate-700">
-            ← Back to profile
+            ← Back to dashboard
           </Link>
           <button onClick={resetPlan} className="text-sm text-slate-400 hover:text-red-600">
             Reset plan

@@ -28,6 +28,9 @@ export default function Jobs() {
   const [data, setData] = useState(null);
   const [onlyMyRole, setOnlyMyRole] = useState(false);
   const [minMatch, setMinMatch] = useState(0);
+  const [savedIds, setSavedIds] = useState(new Set());
+  const [savingId, setSavingId] = useState(null);
+  const [saveError, setSaveError] = useState("");
 
   useEffect(() => {
     apiClient
@@ -40,7 +43,33 @@ export default function Jobs() {
         setError(err.response?.data?.detail || "Could not load job matches.");
         setLoading(false);
       });
+
+    // Which jobs are already in the tracker? Non-fatal if this fails.
+    apiClient
+      .get("/applications/me")
+      .then((res) => {
+        setSavedIds(new Set(res.data.applications.map((a) => a.job_id)));
+      })
+      .catch(() => {});
   }, []);
+
+  async function saveJob(jobId) {
+    setSavingId(jobId);
+    setSaveError("");
+    try {
+      await apiClient.post("/applications/me", { job_id: jobId });
+      setSavedIds((prev) => new Set(prev).add(jobId));
+    } catch (err) {
+      if (err.response?.status === 409) {
+        // Already tracked (e.g. saved in another tab): treat as saved.
+        setSavedIds((prev) => new Set(prev).add(jobId));
+      } else {
+        setSaveError("Could not save that job. Please try again.");
+      }
+    } finally {
+      setSavingId(null);
+    }
+  }
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-slate-500">Matching you with jobs...</div>;
@@ -52,8 +81,8 @@ export default function Jobs() {
         <div className="max-w-md w-full bg-white rounded-2xl shadow-md p-8 text-center">
           <p className="text-amber-600 font-medium mb-2">Can't show job matches yet</p>
           <p className="text-slate-500 text-sm mb-6">{error}</p>
-          <Link to="/dashboard" className="text-blue-600 font-medium hover:underline">
-            ← Back to profile
+          <Link to="/profile" className="text-blue-600 font-medium hover:underline">
+            Go to your profile →
           </Link>
         </div>
       </div>
@@ -69,9 +98,14 @@ export default function Jobs() {
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4">
       <div className="max-w-2xl mx-auto">
-        <Link to="/dashboard" className="text-sm text-slate-500 hover:text-slate-700">
-          ← Back to profile
-        </Link>
+        <div className="flex justify-between items-center">
+          <Link to="/dashboard" className="text-sm text-slate-500 hover:text-slate-700">
+            ← Back to dashboard
+          </Link>
+          <Link to="/applications" className="text-sm text-blue-600 font-medium hover:underline">
+            My applications ({savedIds.size}) →
+          </Link>
+        </div>
 
         <div className="mt-4 mb-5">
           <h1 className="text-2xl font-bold text-slate-800">Jobs matched to you</h1>
@@ -108,6 +142,10 @@ export default function Jobs() {
             Showing {visibleJobs.length} of {data.total}
           </span>
         </div>
+
+        {saveError && (
+          <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg p-3 mb-5">{saveError}</div>
+        )}
 
         {data.total === 0 ? (
           <div className="bg-white rounded-2xl shadow-sm p-8 text-center text-slate-500">
@@ -175,6 +213,22 @@ export default function Jobs() {
                         </span>
                       ))}
                     </div>
+                  )}
+                </div>
+
+                <div className="mt-4 pt-4 border-t border-slate-100">
+                  {savedIds.has(job.job_id) ? (
+                    <Link to="/applications" className="text-sm text-green-700 font-medium hover:underline">
+                      ✓ In your tracker
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => saveJob(job.job_id)}
+                      disabled={savingId === job.job_id}
+                      className="text-sm bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium px-4 py-1.5 rounded-lg transition"
+                    >
+                      {savingId === job.job_id ? "Saving..." : "Save job"}
+                    </button>
                   )}
                 </div>
               </div>

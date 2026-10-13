@@ -33,8 +33,8 @@ export default function SkillGap() {
         <div className="max-w-md w-full bg-white rounded-2xl shadow-md p-8 text-center">
           <p className="text-amber-600 font-medium mb-2">Can't show your skill gap yet</p>
           <p className="text-slate-500 text-sm mb-6">{error}</p>
-          <Link to="/dashboard" className="text-blue-600 font-medium hover:underline">
-            ← Back to profile
+          <Link to="/profile" className="text-blue-600 font-medium hover:underline">
+            Go to your profile →
           </Link>
         </div>
       </div>
@@ -55,7 +55,7 @@ export default function SkillGap() {
     <div className="min-h-screen bg-slate-50 py-10 px-4">
       <div className="max-w-2xl mx-auto">
         <Link to="/dashboard" className="text-sm text-slate-500 hover:text-slate-700">
-          ← Back to profile
+          ← Back to dashboard
         </Link>
 
         <div className="bg-white rounded-2xl shadow-sm p-8 mt-4 mb-5 text-center">

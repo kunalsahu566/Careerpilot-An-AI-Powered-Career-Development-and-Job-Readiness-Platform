@@ -128,26 +128,6 @@ export default function Profile() {
             <h1 className="text-2xl font-bold text-slate-800">Your Profile</h1>
             <p className="text-slate-500">{user?.name} · {user?.email}</p>
           </div>
-          <div className="flex items-center gap-4">
-            <Link to="/skill-gap" className="text-sm text-blue-600 font-medium hover:underline">
-              View Skill Gap →
-            </Link>
-            <Link to="/readiness" className="text-sm text-blue-600 font-medium hover:underline">
-              Readiness Score →
-            </Link>
-            <Link to="/learning" className="text-sm text-blue-600 font-medium hover:underline">
-              Learning →
-            </Link>
-            <Link to="/study-plan" className="text-sm text-blue-600 font-medium hover:underline">
-              Study Plan →
-            </Link>
-            <Link to="/jobs" className="text-sm text-blue-600 font-medium hover:underline">
-              Jobs →
-            </Link>
-            <button onClick={logout} className="text-sm text-slate-500 hover:text-red-600">
-              Log out
-            </button>
-          </div>
         </div>
 
         <Section title="Location">
